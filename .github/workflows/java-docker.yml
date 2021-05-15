@@ -20,7 +20,7 @@ jobs:
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
-          path: ~/.buildx-cache
+          path: ./buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
@@ -31,10 +31,10 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-docker:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-docker:${{ github.ref }}
           builder: ${{ steps.buildx.outputs.name }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+          cache-from: type=local,src=./buildx-cache
+          cache-to: type=local,dest=./buildx-cache
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
       - name: Image digest
