@@ -31,7 +31,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-docker:${{ env.GIT_TAG }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/java-docker:${{ steps.vars.outputs.tag }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=./buildx-cache
           cache-to: type=local,dest=./buildx-cache
